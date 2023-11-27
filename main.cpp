@@ -37,7 +37,7 @@ void crearObjetosPrueba(Empresa& pericardilla){
     }
 }
 
-void menuInicial(Empresa Pericardilla){
+void menuInicial(Empresa& Pericardilla){
     string opcionMenuPrincipal = "0";
     do {
         cout << "Bienvenido al sistema de gestión Pericardillense\n";
@@ -52,7 +52,7 @@ void menuInicial(Empresa Pericardilla){
         }
         if (opcionMenuPrincipal == "2"){
             string idEmpleadoDespedir;
-            cout << "Ingrese el número de id del empleado que desea despedir: ";
+            cout << "\nIngrese el número de id del empleado que desea despedir: ";
             cin >> idEmpleadoDespedir;
             Pericardilla.despedirEmpleado(idEmpleadoDespedir);
         }
@@ -60,16 +60,16 @@ void menuInicial(Empresa Pericardilla){
             Pericardilla.informeGeneral();
         }
         if (opcionMenuPrincipal == "4"){
-            cout << "Gracias por usar el sistema de gestión Pericardillense."<<endl;
+            cout << "\nGracias por usar el sistema de gestión Pericardillense." << endl;
         }
     }
     while (opcionMenuPrincipal != "4");
-
 }
 
 int main() {
     Empresa pericardilla("Pericardilla");
 
+    menuInicial(pericardilla);
     crearObjetosPrueba(pericardilla);
 
 }

@@ -4,6 +4,6 @@
     "string": "cpp"
   },
   "code-runner.executorMap": {
-    "cpp": "g++ *.cpp && ./a.out"
+    "cpp": "g++ -std=c++14 -o main *.cpp"
   }
 }
