@@ -19,7 +19,7 @@ class Empleado{
   public:
     Empleado(string idEmpleado, string departamentoEmpleado, string puestoEmpleado, string tipoEmpleado);
     virtual ~Empleado();
-    virtual float pagarSalario() = 0;
+    virtual float calcularPago() = 0;
     string getTipoEmpleado();
     string getIdEmpleado(); 
     string getDepartamentoEmpleado();

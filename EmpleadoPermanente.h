@@ -20,7 +20,7 @@ class EmpleadoPermanente: public Persona, public Empleado{
   
   public:
     EmpleadoPermanente(string nombrePersona, string documentoPersona, int edadPersona, string idEmpleado, string departamentoEmpleado, string puestoEmpleado, string tipoEmpleado);
-    virtual float pagarSalario();
+    virtual float calcularPago();
     int getHorasExtra();
     float getSalario();
     void setHorasExtra(int horasExtra);

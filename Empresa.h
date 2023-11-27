@@ -15,27 +15,26 @@ Relaciones: contiene a instancias de EmpleadosPermanentes y EmpleadosTemporales.
 using namespace std;
 
 class Empresa {
-private:
-  vector<EmpleadoPermanente*> empleadosPermanentes;
-  vector<EmpleadoTemporal*> empleadosTemporales;
-  //vector<Empleado*> empleados;
-  string nombreEmpresa;
-  string idEmpresa;
+  private:
+    vector<EmpleadoPermanente*> empleadosPermanentes;
+    vector<EmpleadoTemporal*> empleadosTemporales;
+    vector<Empleado*> empleados;
+    string nombreEmpresa;
+    string idEmpresa;
+    float totalPagos;
 
-public:
-  Empresa(string nombreEmpresa);
-  //vector<Empleado*> getEmpleados();
-  vector<EmpleadoPermanente*> getEmpleadosPermanentes();
-  vector<EmpleadoTemporal*> getEmpleadosTemporales();
-  void agregarEmpleadoPermanente(EmpleadoPermanente* unEmpleadoPermanente);
-  void agregarEmpleadoTemporal(EmpleadoTemporal* unEmpleadoTemporal);
-  //void agregarEmpleado(Empleado* unEmpleado);
-  string getNombreEmpresa();
-  void pagarEmpleados();
-  void contratarEmpleado();
-  void despedirEmpleado(string idEmpleado);
-  void informeGeneral();
-};
+  public:
+    Empresa(string nombreEmpresa);
+    vector<Empleado*> getEmpleados();
+    vector<EmpleadoPermanente*> getEmpleadosPermanentes();
+    vector<EmpleadoTemporal*> getEmpleadosTemporales();
+    void agregarEmpleado(Empleado* unEmpleado);
+    string getNombreEmpresa();
+    void calcularPagos();
+    void contratarEmpleado();
+    void despedirEmpleado(string idEmpleado);
+    void informeGeneral();
+  };
 
 #else
 class Empresa;

@@ -3,7 +3,7 @@
 EmpleadoPermanente::EmpleadoPermanente(string nombrePersona, string documentoPersona, int edadPersona, string idEmpleado, string departamentoEmpleado, string puestoEmpleado, string tipoEmpleado) : Persona(nombrePersona, documentoPersona, edadPersona), Empleado(idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado){
 }
 
-float EmpleadoPermanente::pagarSalario(){
+float EmpleadoPermanente::calcularPago(){
   float total = horasExtra*valorHora + salarioBasico;
   return total;
 }

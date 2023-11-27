@@ -13,21 +13,21 @@ Empleado,EmpleadoTemporal y EmpleadoPermanente*/
 using namespace std;
 
 class Persona {
-private:
-  string nombrePersona;
-  string documentoPersona;
-  int edadPersona;
+  private:
+    string nombrePersona;
+    string documentoPersona;
+    int edadPersona;
 
-public:
-  Persona(string nombrePersona, string documentoPersona, int edadPersona);
-  virtual ~Persona();
-  int getEdad();
-  string getDocumento();
-  string getNombre();
-  void setEdad(int edadPersona);
-  void setDocumento(string documentoPersona);
-  void setNombre(string nombrePersona);
-};
+  public:
+    Persona(string nombrePersona, string documentoPersona, int edadPersona);
+    virtual ~Persona();
+    int getEdad();
+    string getDocumento();
+    string getNombre();
+    void setEdad(int edadPersona);
+    void setDocumento(string documentoPersona);
+    void setNombre(string nombrePersona);
+  };
 
 #else
 class Persona;

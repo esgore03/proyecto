@@ -20,25 +20,38 @@ using namespace std;
 //Función cuyo fin es crear objetos iniciales para las pruebas. Esta función no haría parte del programa final, solo es para probar el funcionamiento de este.
 void crearObjetosPrueba(Empresa& pericardilla){
     string nombresPersonas[4] = {"Ivan", "Angelica", "Dylan", "Jhorman"};
-    string documentosPersonas[4] = {"202330197", "1923301969", "102330196", "20236969"};
+    string documentosPersonas[4] = {"202330197", "192330196", "102330196", "202369696"};
     string departamentosEmpleados[4] = {"limpieza", "logistica", "cocina", "logistica"};
     string puestosEmpleados[4] = {"aseador", "analista", "mesero", "repartidor"};
     string tiposEmpleados[4] = {"permanente", "permanente", "temporal", "temporal"};
-    string idsEmpleados[4] = {"125244", "696969", "666666", "131313"};
+    string idsEmpleados[4] = {"001", "002", "003", "004"};
     int edadesPersonas[4] = {19, 40, 18, 18};
     
 
     for(int i = 0; i < sizeof(nombresPersonas); i++){
         if(tiposEmpleados[i] == "permanente"){
-          pericardilla.agregarEmpleadoPermanente(new EmpleadoPermanente(nombresPersonas[i], documentosPersonas[i], edadesPersonas[i], idsEmpleados[i], departamentosEmpleados[i], puestosEmpleados[i], tiposEmpleados[i]));  
+            pericardilla.agregarEmpleado(new EmpleadoPermanente(nombresPersonas[i], documentosPersonas[i], edadesPersonas[i], idsEmpleados[i], departamentosEmpleados[i], puestosEmpleados[i], tiposEmpleados[i]));  
         }
         if(tiposEmpleados[i] == "temporal"){
-          pericardilla.agregarEmpleadoTemporal(new EmpleadoTemporal(nombresPersonas[i], documentosPersonas[i], edadesPersonas[i], idsEmpleados[i], departamentosEmpleados[i], puestosEmpleados[i], tiposEmpleados[i]));  
+            pericardilla.agregarEmpleado(new EmpleadoTemporal(nombresPersonas[i], documentosPersonas[i], edadesPersonas[i], idsEmpleados[i], departamentosEmpleados[i], puestosEmpleados[i], tiposEmpleados[i]));  
         }
     }
 }
 
-void menuInicial(Empresa& Pericardilla){
+void despedirEmpleadoMenu(Empresa& empresa){
+    string idEmpleadoDespedir;
+    do{
+        cout << "\nIngrese el número de id del empleado que desea despedir: ";
+        cin >> idEmpleadoDespedir;
+        if(idEmpleadoDespedir.length() < 3 or idEmpleadoDespedir.length() > 3){
+            cout <<"\nIngrese un id válida." << endl;
+        }
+        empresa.despedirEmpleado(idEmpleadoDespedir);
+    }
+    while(idEmpleadoDespedir.length() < 3 or idEmpleadoDespedir.length() > 3);
+}
+
+void menuInicial(Empresa& empresa){
     string opcionMenuPrincipal = "0";
     do {
         cout << "Bienvenido al sistema de gestión Pericardillense\n";
@@ -49,16 +62,13 @@ void menuInicial(Empresa& Pericardilla){
         cout << "\n4. Salir." << endl;
         cin >> opcionMenuPrincipal; 
         if (opcionMenuPrincipal == "1"){
-            Pericardilla.contratarEmpleado();
+            empresa.contratarEmpleado();
         }
         if (opcionMenuPrincipal == "2"){
-            string idEmpleadoDespedir;
-            cout << "\nIngrese el número de id del empleado que desea despedir: ";
-            cin >> idEmpleadoDespedir;
-            Pericardilla.despedirEmpleado(idEmpleadoDespedir);
+            despedirEmpleadoMenu(empresa);
         }
         if (opcionMenuPrincipal == "3"){
-            Pericardilla.informeGeneral();
+            empresa.informeGeneral();
         }
         if (opcionMenuPrincipal == "4"){
             cout << "\nGracias por usar el sistema de gestión Pericardillense." << endl;
