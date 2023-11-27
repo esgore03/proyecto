@@ -7,9 +7,10 @@ Nicolas Salazar 202328060 nicolas.salazar.castillo@correounivalle.edu.co
 Dylan Morales 202328330 dylan.morales@correounivalle.edu.co
 
 Fecha de creacion: 30/10/2023
-Fecha de ultima modificacion: 30/10/2023
+Fecha de ultima modificacion: 26/11/2023
 Version: 0.9
 */
+
 #include "EmpleadoPermanente.h"
 #include "EmpleadoTemporal.h"
 #include "Empresa.h"
