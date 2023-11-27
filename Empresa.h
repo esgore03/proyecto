@@ -18,20 +18,21 @@ class Empresa {
 private:
   vector<EmpleadoPermanente*> empleadosPermanentes;
   vector<EmpleadoTemporal*> empleadosTemporales;
-  vector<Empleado*> empleados;
+  //vector<Empleado*> empleados;
   string nombreEmpresa;
   string idEmpresa;
 
 public:
   Empresa(string nombreEmpresa);
-  vector<Empleado*> getEmpleados();
+  //vector<Empleado*> getEmpleados();
   vector<EmpleadoPermanente*> getEmpleadosPermanentes();
   vector<EmpleadoTemporal*> getEmpleadosTemporales();
-  void agregarEmpleado(Empleado* unEmpleado);
+  void agregarEmpleadoPermanente(EmpleadoPermanente* unEmpleadoPermanente);
+  void agregarEmpleadoTemporal(EmpleadoTemporal* unEmpleadoTemporal);
+  //void agregarEmpleado(Empleado* unEmpleado);
   string getNombreEmpresa();
   void pagarEmpleados();
   void contratarEmpleado();
-  void agregarEmpleado(Empleado* unEmpleado);
   void despedirEmpleado(string idEmpleado);
   void informeGeneral();
 };
