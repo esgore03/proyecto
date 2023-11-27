@@ -17,46 +17,34 @@ Version: 0.9
 #include <iostream>
 using namespace std;
 
-/*
-void menuInicial() {
-string opcion = "0";
-cout << "Bienvenido al sistema de gestión Pericardillense\n";
-cout << "Qué desea hacer?\n";
-cout << "1. Registrar una empresa nueva\n";
-cout << "2. Iniciar Sesión\n";
-cout << "3. Salir\n";
-cin >> opcion;
-do {
-if (opcion == "1") {
-    cout << "Ingrese el nombre de la empresa que va a registrar: ";
-}
-
-if (opcion == "2") {
-    cout << "Digite el nombre de Usuari:o " << endl;
-}
-if (opcion == "3") {
-    cout << "Saliste del Sistema de Gestion Pericardillense\n Vuelve Pronto"
-        << endl;
-}
-while (opcion != "3"){}
-
-}
-}
-*/
-void menuInicial(){
-    do
+void menuInicial(Empresa Pericardilla){
     string opcionMenuPrincipal = "0";
-    do{
+    do {
     cout << "Bienvenido al sistema de gestión Pericardillense\n";
     cout << "\nQué desea hacer?" << endl;
-    cout << "\n1. Registrar su empresa." << endl;
-    cout << "\n2. Contratar un nuevo empleado." << endl;
-    cout << "\n3. Informe empleados." << endl;
-    cout << "\n4. Informe pagos." << endl;    
-    }while (opcion != "5");in >> opcion;
+    cout << "\n1. Contratar un nuevo empleado." << endl;
+    cout << "\n2. Despedir un empleado." << endl;
+    cout << "\n3. Informe general" << endl;  
+    cout << "\n4. Salir." << endl;
+    cin >> opcionMenuPrincipal;  
+    } 
+    while (opcionMenuPrincipal != "4");
+    if (opcionMenuPrincipal == "1"){
+        Pericardilla.contratarEmpleado();
     }
-        while (opcion != "5");
-
+    if (opcionMenuPrincipal == "2"){
+        string idEmpleadoDespedir;
+        cout << "Ingrese el número de id del empleado que desea despedir: ";
+        cin >> idEmpleadoDespedir;
+        Pericardilla.despedirEmpleado(idEmpleadoDespedir);
+    }
+    if (opcionMenuPrincipal == "3"){
+        Pericardilla.informeGeneral();
+    }
+    if (opcionMenuPrincipal == "4"){
+        cout << "Gracias por usar el sistema de gestión Pericardillense."<<endl;
+    }
+}
 
 int main() {
     EmpleadoPermanente empleado1(string x = "Ivan", string y = "202330197",

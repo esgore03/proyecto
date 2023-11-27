@@ -3,34 +3,28 @@ Objetivo: servir como superclase de EmpleadoTemporal y EmpleadoPermanente.
 Relaciones: subclase de persona, clase madre de EmpleadoTemporal y EmpleadoPermanente. 
 */
 
-#ifndef EMPLEADO__HH
-#define EMPLEADO__HH
+#ifndef EMPLEADOTEMPORAL__HH
+#define EMPLEADOTEMPORAL__HH
 
 #include <iostream>
+#include "Persona.h"
+#include "Empleado.h"
 using namespace std;
 
-class Empleado{
+class EmpleadoTemporal : public Persona, public Empleado{
   private:
-    string idEmpleado;
-    string departamentoEmpleado;
-    string puestoEmpleado;
-    string tipoEmpleado;
+    float valorHora = 5000;
+    int horasTrabajadas;
 
   public:
-    Empleado(string idEmpleado, string departamentoEmpleado, string puestoEmpleado, string tipoEmpleado);
-    virtual ~Empleado();
-    virtual float pagarSalario() = 0;
-    string getTipoEmpleado();
-    string getIdEmpleado(); 
-    string getDepartamentoEmpleado();
-    string getPuestoEmpleado(); 
-    void setTipoEmpleado(string tipoEmpleado);
-    void setIdEmpleado(string idEmpleado); 
-    void setDepartamentoEmpleado(string departamentoEmpleado); 
-    void setPuestoEmpleado(string puestoEmpleado); 
-
+    EmpleadoTemporal(string nombrePersona, string documentoPersona, int edadPersona, string idEmpleado, string departamentoEmpleado, string puestoEmpleado, string tipoEmpleado);
+    virtual float pagarSalario();
+    float getValorHora();
+    int getHorasTrabajadas();
+    void setValorHora(float valorHora);
+    void setHorasTrabajadas(int horasTrabajadas);
 };
 
 #else
-class Empleado;
+class EmpleadoTemporal;
 #endif

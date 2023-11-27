@@ -5,7 +5,6 @@ EmpleadoPermanente::EmpleadoPermanente(string nombrePersona, string documentoPer
 
 float EmpleadoPermanente::pagarSalario(){
   float total = horasExtra*valorHora + salarioBasico;
-
   return total;
 }
 
@@ -24,4 +23,5 @@ void EmpleadoPermanente::setHorasExtra(int horasExtra){
 void EmpleadoPermanente::setSalario(float salario){
   this->salarioBasico = salario;
 }
+
 

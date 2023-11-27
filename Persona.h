@@ -18,7 +18,7 @@ private:
   string documentoPersona;
   int edadPersona;
 
-protected:
+public:
   Persona(string nombrePersona, string documentoPersona, int edadPersona);
   virtual ~Persona();
   int getEdad();

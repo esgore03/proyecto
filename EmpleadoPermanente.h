@@ -12,7 +12,7 @@ Relaciones: es subclase de Empleado y Persona.
 
 using namespace std;
  
-class EmpleadoPermanente: protected Persona, public Empleado{
+class EmpleadoPermanente: public Persona, public Empleado{
   private:
     int horasExtra;
     float salarioBasico = 1160000;

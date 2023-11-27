@@ -3,7 +3,7 @@
 #include <algorithm>
 using namespace std;
 
-Empresa::Empresa(string nombreEmpresa, string id){
+Empresa::Empresa(string nombreEmpresa){
   this->nombreEmpresa = nombreEmpresa;
 }
 
@@ -12,12 +12,8 @@ string Empresa::getNombreEmpresa(){
 }
 
 void Empresa::pagarEmpleados(){
-  for (EmpleadoPermanente& empleadoPermanente : empleadosPermanentes){
-    empleadoPermanente->pagarSalario(); 
-  }
-  
-  for (EmpleadoTemporal& empleadoTemporal : empleadosTemporales){
-    empleadoTemporal->pagarSalario(); 
+  for (Empleado* empleado: empleados){
+    empleado->pagarSalario();
   }
 }
 
@@ -52,42 +48,26 @@ void Empresa::contratarEmpleado(){
   }
 
   if(tipoEmpleado == "permanente"){
-    EmpleadoPermanente* empleado = new EmpleadoPermanente(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado);
-    empleados->push_back(empleado);
-    empleadosPermanentes->push_back(empleado);
+    empleados.push_back(new EmpleadoPermanente(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado));
     cout << "\nEmpleado contratado con éxito." << endl;
   }
 
   if(tipoEmpleado == "temporal"){
-    EmpleadoTemporal* empleado = new EmpleadoTemporal(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado);
-    empleados->push_back(empleado);
-    empleadosTemporales->push_back(empleado);
+    empleados.push_back(new EmpleadoTemporal(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado));
     cout << "\nEmpleado contratado con éxito." << endl;
   }
 }
 
 void Empresa::agregarEmpleado(Empleado* unEmpleado){
-  empleados->push_back(unEmpleado);
-
-  if(empleados.getTipoEmpleado() == "permanente"){
-    empleadosPermanentes->push_back(unEmpleado);
-  }
-
-  if(empleados.getTipoEmpleado() == "temporal"){
-    empleadosTemporales->push_back(unEmpleado);
-  }
+  empleados.push_back(unEmpleado);
 }
 
+
 void Empresa::despedirEmpleado(string idEmpleado){
-  auto it1 =  std::find(empleadosPermanentes.begin(), empleadosPermanentes.end(), idEmpleado);
-  auto it2 = std::find(empleadosTemporales.begin(), empleadosTemporales.end(), idEmpleado);
+  auto it =  std::find(empleados.begin(), empleados.end(), idEmpleado);
   
-  if(it1 != empleadosPermanentes.end()){
-    empleadosPermanentes->erase(it1);
-    cout << "\nEmpleado despedido con éxito." << endl;
-  }
-  else if(it2 != empleadosTemporales.end()){
-    empleadosTemporales->erase(it2);
+  if(it != empleados.end()){
+    empleados.erase(it);
     cout << "\nEmpleado despedido con éxito." << endl;
   }
   else{
@@ -95,10 +75,29 @@ void Empresa::despedirEmpleado(string idEmpleado){
   }
 }
 
-vector<EmpleadoTemporal> Empresa::getEmpleadosTemporales(){
+vector<EmpleadoTemporal*> Empresa::getEmpleadosTemporales(){
+  for(Empleado* empleado: empleados){
+    if(empleado->getTipoEmpleado() == "temporal"){
+      empleadosTemporales.push_back(empleado);
+    }
+  }
+
   return empleadosTemporales;
 }
 
-vector<EmpleadoPermanente> Empresa::getEmpleadosPermanentes(){
+vector<EmpleadoPermanente*> Empresa::getEmpleadosPermanentes(){
+  for(Empleado* empleado: empleados){
+    if(empleado->getTipoEmpleado() == "permanente"){
+      empleadosPermanentes.push_back(empleado);
+    }
+  }
+
   return empleadosPermanentes;
+}
+
+void Empresa::informeGeneral(){
+  cout<<"Cantidad total de empleados: " << empleados.size() << endl;
+  cout<<"Cantidad de empleados permanentes: " << empleadosPermanentes.size() << endl;
+  cout<<"Cantidad de empleados temporales: " << empleadosTemporales.size() << endl;
+  
 }
