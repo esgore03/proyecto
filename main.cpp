@@ -54,7 +54,7 @@ void despedirEmpleadoMenu(Empresa& empresa){
 void menuInicial(Empresa& empresa){
     string opcionMenuPrincipal = "0";
     do {
-        cout << "Bienvenido al sistema de gestión Pericardillense\n";
+        cout << "\nBienvenido al sistema de gestión salarial de la empresa " << empresa.getNombreEmpresa() << "." << endl;
         cout << "\nQué desea hacer?" << endl;
         cout << "\n1. Contratar un nuevo empleado." << endl;
         cout << "\n2. Despedir un empleado." << endl;
