@@ -8,6 +8,9 @@ Persona::Persona(string nombrePersona, string documentoPersona,
   this->edadPersona = edadPersona;
 }
 
+Persona::~Persona(){
+}
+
 int Persona::getEdad() { return edadPersona; }
 
 string Persona::getDocumento() { return documentoPersona; }

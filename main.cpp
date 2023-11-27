@@ -13,7 +13,6 @@ Version: 0.9
 #include "EmpleadoPermanente.h"
 #include "EmpleadoTemporal.h"
 #include "Empresa.h"
-#include "Persona.h"
 #include <iostream>
 using namespace std;
 

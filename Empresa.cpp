@@ -71,15 +71,32 @@ void Empresa::agregarEmpleadoTemporal(EmpleadoTemporal* unEmpleadoTemporal){
 
 
 void Empresa::despedirEmpleado(string idEmpleado){
-  auto it1 =  std::find(empleadosPermanentes.begin(), empleadosPermanentes.end(), idEmpleado);
-  auto it2 = std::find(empleadosTemporales.begin(), empleadosTemporales.end(), idEmpleado);
+  //Variables que contendrán la posición del objeto que concuerda con la id del parámetro.
+  int it1 = -1;
+  int it2 = -1;
 
-  if(it1 != empleadosPermanentes.end()){
-    empleadosPermanentes.erase(it1);
+  //Se busca el objeto que coincida con la id del parámetro.
+  for(int i = 0; i < empleadosPermanentes.size(); i++){
+    if(empleadosPermanentes[i]->getIdEmpleado() == idEmpleado){
+      it1 = i;
+      break;
+    }
+  }
+  for(int i = 0; i < empleadosTemporales.size(); i++){
+    if(empleadosTemporales[i]->getIdEmpleado() == idEmpleado){
+      it2 = i;
+      break;
+    }
+  }
+
+  /*Nótese que los anteriores for nunca retornarán -1, además de que si no encuentran a un empleado con ese id dentro del respectivo vector, entonces no cambiarán el valor inicial de it1 o it2 que es -1.*/
+  if(it1 != -1){
+    //Debido a que erase toma como parámetro un iterador, se "convierte" it1 o it2 a uno.
+    empleadosPermanentes.erase(empleadosPermanentes.begin() + it1);
     cout << "\nEmpleado despedido con éxito." << endl;
   }
-  else if(it2 != empleadosTemporales.end()){
-    empleadosTemporales.erase(it2);
+  else if(it2 != -1){
+    empleadosTemporales.erase(empleadosTemporales.begin() + it2);
     cout << "\nEmpleado despedido con éxito." << endl;
   }
   else{
