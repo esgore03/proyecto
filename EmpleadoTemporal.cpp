@@ -7,9 +7,9 @@ EmpleadoTemporal::EmpleadoTemporal(string nombrePersona, string documentoPersona
 EmpleadoTemporal::~EmpleadoTemporal(){
 }
 
+//Método calcularPago().
 float EmpleadoTemporal::calcularPago(){
-  float total = horasTrabajadas*valorHora;
-  return total;
+  return (horasTrabajadas*valorHora);
 }
 
 int EmpleadoTemporal::getHorasTrabajadas(){

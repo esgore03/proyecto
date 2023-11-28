@@ -13,7 +13,7 @@ using namespace std;
 
 class EmpleadoTemporal : public Persona, public Empleado{
   private:
-    float valorHora = 0;
+    float valorHora = 5000;
     int horasTrabajadas = 0;
 
   public:

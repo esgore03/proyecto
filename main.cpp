@@ -38,57 +38,8 @@ void crearObjetosPrueba(Empresa& pericardilla){
     }
 }
 
-void despedirEmpleadoMenu(Empresa& empresa){
-    string idEmpleadoDespedir;
-    bool idValida;
-    do{
-        cout << "\nIngrese el número de id del empleado que desea despedir: ";
-        cin >> idEmpleadoDespedir;
-        if(idEmpleadoDespedir.length() < 3 or idEmpleadoDespedir.length() > 3){
-            idValida = false;
-            cout <<"\nIngrese un id válida." << endl;
-        }
-        else{
-            idValida = true;
-        }
-        empresa.despedirEmpleado(idEmpleadoDespedir);
-    }
-    while(not idValida);
-}
-
-void consultarInformacionEmpleadoMenu(Empresa &empresa){
-    string idEmpleado;
-
-    cout << "\nIngrese la id del empleado a consultar: ";
-    cin >> idEmpleado;
-    bool existeEmpleado = empresa.verificarEmpleado(idEmpleado);
-    while(not existeEmpleado){
-        cout << "\nNo existe empleado con esa id." << endl;
-        cout << "\nIngrese la id del empleado a consultar: ";
-        cin >> idEmpleado;
-        bool existeEmpleado = empresa.verificarEmpleado(idEmpleado);
-    }
-
-    empresa.informacionEmpleado(idEmpleado);
-}
-
-void editarInformacionEmpleadoMenu(Empresa& empresa){
-    string idEmpleado;
-
-    cout << "\nIngrese la id del empleado a editar: ";
-    cin >> idEmpleado;
-    bool existeEmpleado = empresa.verificarEmpleado(idEmpleado);
-    while(not existeEmpleado){
-        cout << "\nNo existe empleado con esa id." << endl;
-        cout << "\nIngrese la id del empleado a editar: ";
-        cin >> idEmpleado;
-        bool existeEmpleado = empresa.verificarEmpleado(idEmpleado);
-    }
-
-    //empresa.editarEmpleado(idEmpleado);
-}
-
-void menuInicial(Empresa& empresa){
+//Menú principal.
+void menuPrincipal(Empresa& empresa){
     int opcionMenuPrincipal;
     do {
         cout << "\nBienvenido al sistema de gestión salarial de la empresa " << empresa.getNombreEmpresa() << "." << endl;
@@ -105,13 +56,13 @@ void menuInicial(Empresa& empresa){
             empresa.contratarEmpleado();
         }
         if (opcionMenuPrincipal == 2){
-            despedirEmpleadoMenu(empresa);
+            empresa.despedirEmpleado();
         }
         if (opcionMenuPrincipal == 3){
-            editarInformacionEmpleadoMenu(empresa);
+            empresa.editarEmpleado();
         }
         if (opcionMenuPrincipal == 4){
-            consultarInformacionEmpleadoMenu(empresa);
+            empresa.informacionEmpleado();
         }
         if (opcionMenuPrincipal == 5){
             empresa.informeGeneral();
@@ -131,7 +82,7 @@ int main() {
     crearObjetosPrueba(pericardilla);
 
     //Se ejecuta el menu.
-    menuInicial(pericardilla);
+    menuPrincipal(pericardilla);
 
     //Se llama al destructor de la empresa.
     pericardilla.~Empresa();

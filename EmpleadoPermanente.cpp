@@ -6,9 +6,9 @@ EmpleadoPermanente::EmpleadoPermanente(string nombrePersona, string documentoPer
 EmpleadoPermanente::~EmpleadoPermanente(){
 }
 
+//Método calcularPago().
 float EmpleadoPermanente::calcularPago(){
-  float total = horasExtra*valorHora + salarioBasico;
-  return total;
+  return (horasExtra*valorHora) + salarioBasico;
 }
 
 float EmpleadoPermanente::getSalario(){
