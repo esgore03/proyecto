@@ -8,6 +8,18 @@ Empresa::Empresa(string nombreEmpresa){
   this->nombreEmpresa = nombreEmpresa;
 }
 
+//Destructor.
+Empresa::~Empresa(){
+  //El for elimina cada puntero para liberar la memoria usada. Al final se hace clear a los vectores.
+  for(Empleado* empleado: empleados){
+    delete empleado;
+    empleado = nullptr;
+  }
+  empleados.clear();
+  empleadosPermanentes.clear();
+  empleadosTemporales.clear();
+}
+
 string Empresa::getNombreEmpresa(){
   return nombreEmpresa;  
 }

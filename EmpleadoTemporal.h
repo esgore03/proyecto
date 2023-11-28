@@ -18,6 +18,7 @@ class EmpleadoTemporal : public Persona, public Empleado{
 
   public:
     EmpleadoTemporal(string nombrePersona, string documentoPersona, int edadPersona, string idEmpleado, string departamentoEmpleado, string puestoEmpleado, string tipoEmpleado);
+    virtual ~EmpleadoTemporal();
     virtual float calcularPago();
     float getValorHora();
     int getHorasTrabajadas();

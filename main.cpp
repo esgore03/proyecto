@@ -124,9 +124,17 @@ void menuInicial(Empresa& empresa){
 }
 
 int main() {
+    //Se crea la empresa.
     Empresa pericardilla("Pericardilla");
+
+    //Se crean los objetos iniciales.
     crearObjetosPrueba(pericardilla);
+
+    //Se ejecuta el menu.
     menuInicial(pericardilla);
+
+    //Se llama al destructor de la empresa.
+    pericardilla.~Empresa();
 
     return 0;
 }

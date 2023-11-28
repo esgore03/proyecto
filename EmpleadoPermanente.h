@@ -1,5 +1,5 @@
 /*
-Objetivo: modelar los Empleados de tiempo completo de la empresa .
+Objetivo: modelar los Empleados de tiempo completo de la empresa.
 Relaciones: es subclase de Empleado y Persona.
 */
 
@@ -20,6 +20,7 @@ class EmpleadoPermanente: public Persona, public Empleado{
   
   public:
     EmpleadoPermanente(string nombrePersona, string documentoPersona, int edadPersona, string idEmpleado, string departamentoEmpleado, string puestoEmpleado, string tipoEmpleado);
+    virtual ~EmpleadoPermanente();
     virtual float calcularPago();
     int getHorasExtra();
     float getSalario();

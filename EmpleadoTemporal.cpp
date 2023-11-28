@@ -4,6 +4,9 @@
 EmpleadoTemporal::EmpleadoTemporal(string nombrePersona, string documentoPersona, int edadPersona, string idEmpleado, string departamentoEmpleado, string puestoEmpleado, string tipoEmpleado) : Persona(nombrePersona, documentoPersona, edadPersona), Empleado(idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado){
 }
 
+EmpleadoTemporal::~EmpleadoTemporal(){
+}
+
 float EmpleadoTemporal::calcularPago(){
   float total = horasTrabajadas*valorHora;
   return total;
