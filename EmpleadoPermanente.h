@@ -14,9 +14,9 @@ using namespace std;
  
 class EmpleadoPermanente: public Persona, public Empleado{
   private:
-    int horasExtra;
-    float salarioBasico;
-    float valorHora;
+    int horasExtra = 0;
+    float salarioBasico = 0;
+    float valorHora = 0;
   
   public:
     EmpleadoPermanente(string nombrePersona, string documentoPersona, int edadPersona, string idEmpleado, string departamentoEmpleado, string puestoEmpleado, string tipoEmpleado);

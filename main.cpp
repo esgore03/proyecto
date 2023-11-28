@@ -28,7 +28,7 @@ void crearObjetosPrueba(Empresa& pericardilla){
     int edadesPersonas[4] = {19, 40, 18, 18};
     
 
-    for(int i = 0; i < sizeof(nombresPersonas); i++){
+    for(int i = 0; i < 4; i++){
         if(tiposEmpleados[i] == "permanente"){
             pericardilla.agregarEmpleado(new EmpleadoPermanente(nombresPersonas[i], documentosPersonas[i], edadesPersonas[i], idsEmpleados[i], departamentosEmpleados[i], puestosEmpleados[i], tiposEmpleados[i]));  
         }
