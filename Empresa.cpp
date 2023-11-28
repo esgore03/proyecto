@@ -41,13 +41,11 @@ void Empresa::contratarEmpleado(){
   do{
     nombrePersonaValido = true;
     cout << "\nIngrese el nombre del empleado: ";
-    cin.ignore();
     //getline, lee los datos tal y como fueron ingresados, no los convierte.
-    getline(cin, nombrePersona);
+    cin >> nombrePersona;
     /*Teniendo en cuenta lo anterior, a nombrePersona se le verifica que no se le hayan ingresado dígitos. Esto normalmente sería imposible si no fuera por getline y su peculiaridad de no convertir los datos ingresados.*/
-    for(int i = 0; i < nombrePersona.length(); i++){
-      //Se verifica si el carácter es dígito.
-      if(isdigit(nombrePersona[i])){
+    for(char caracter: nombrePersona){
+      if(isdigit(caracter)){
         cout << "\nPor favor ingrese el nombre sin dígitos." << endl;
         nombrePersonaValido = false;
         break;
@@ -57,14 +55,18 @@ void Empresa::contratarEmpleado(){
   //Se repite el ciclo hasta que no sea válido el nombre ingresado.
   while(not (nombrePersonaValido));
 
-  //Se verifica que no hayan empleados con el mismo documento.
-  bool documentoRepetido;
+  //Se verifica que no hayan empleados con el mismo documento y que el documento no sea mayor o menor a 10 dígitos.
+  bool documentoRepetido, documentoValidoLength, documentoValidoCaracteres;
   do{
+    documentoValidoLength = true;
+    documentoValidoCaracteres = true;
     documentoRepetido = false;
     cout << "\nIngrese el documento del empleado: ";
     cin >> documentoPersona;
     
+    //Se verifica que no esté repetido el documento.
     for(Empleado* empleado: empleados){
+      //Se verifica el tipo del empleado para aplicar el dynamic cast correspondiente.
       if(empleado->getTipoEmpleado() == "permanente"){
         EmpleadoPermanente* empleadoPermanente = dynamic_cast<EmpleadoPermanente*>(empleado);
 
@@ -84,8 +86,24 @@ void Empresa::contratarEmpleado(){
         }
       }
     }
+    
+    //Se verifica si solo hay dígitos en el input.
+    for(char caracter: documentoPersona){
+      //Se verifica si el carácter es dígito.
+      if(not (isdigit(caracter))){
+        cout << "\nPor favor ingrese el nombre sin carácteres." << endl;
+        documentoValidoCaracteres = false;
+        break;
+      }
+    }
+
+    //Se verifica el length del input acorde a la restricción puesta.
+    if(documentoPersona.length() < 10 or documentoPersona.length() > 10){
+      cout << "\nEl documento ingresado debe tener 10 dígitos, no más, no menos." << endl;
+      documentoValidoLength = false;
+    }
   }
-  while(documentoRepetido);
+  while((documentoRepetido) or (not (documentoValidoLength)) or (not (documentoValidoCaracteres)));
 
   /*Se restringen ciertos inputs a la edad, primero, que esté entre 18 y 100 años, segundo, que si se ingresan carácteres, se soporten ese tipo de inputs y mediante un try se muestre el error y siga en marcha el programa.*/
   bool rangoEdadValido, edadValida;
