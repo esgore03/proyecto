@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Empresa.h"
 #include <algorithm>
+#include <cctype>
 using namespace std;
 
 Empresa::Empresa(string nombreEmpresa){
@@ -20,7 +21,7 @@ void Empresa::calcularPagos(){
     totalPagos += pago;
     cout << "\nAl empleado " << empleado->getNombre() << " identificado con id de empleado: " << empleado->getIdEmpleado() << " se le debe pagar: " << pago << " persos" << endl;
   }
-  cout << "\nEMPLEADOS TEMPORALES." << endl;
+  cout << "\nEMPLEADOS TEMPORALES." << "\nTéngase en cuenta que el calculo a continuación se basa en las horas trabajadas registradas, si estas son 0, el cálculo retornará 0." << endl;
   for (EmpleadoTemporal* empleado: empleadosTemporales){
     pago = empleado->calcularPago();
     totalPagos += pago;
@@ -32,34 +33,114 @@ void Empresa::contratarEmpleado(){
   string nombrePersona, documentoPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado;
   int edadPersona;
   char eleccionTipoEmpleado;
-
-  cout << "\nIngrese el nombre del empleado: ";
-  cin >> nombrePersona;
-
-  /*No se agregan restricciones al documento pero perfectamente podría ser hecho siguiendo la lógica de la restricción en idEmpleado, eso queda a gusto del cliente final.*/
-  cout << "\nIngrese el documento del empleado: ";
-  cin >> documentoPersona;
-
+  
+  bool nombrePersonaValido;
+  //Ciclo do-while para verificar datos ingresados.
   do{
-    cout << "\nIngrese la edad del empleado: ";
-    cin >> edadPersona;
-
-    if(edadPersona < 18 and edadPersona > 100){
-      cout <<"\nIngrese una edad válida." << endl;
+    cout << "\nIngrese el nombre del empleado: ";
+    //getline funciona como un cin solo que lee los datos tal y como fueron ingresados, no los convierte.
+    getline(cin, nombrePersona);
+    /*Teniendo en cuenta lo anterior, a nombrePersona se le verifica que no se le hayan ingresado dígitos. Esto normalmente sería imposible si no fuera por getline y su peculiaridad de no convertir los datos ingresados.*/
+    for(int i = 0; i < nombrePersona.length(); i++){
+      //Se verifica si el carácter es dígito.
+      if(isdigit(nombrePersona[i])){
+        cout << "\nPor favor ingrese el nombre sin dígitos." << endl;
+        nombrePersonaValido = false;
+        break;
+      }
     }
   }
-  while(edadPersona < 18 and edadPersona > 100);
+  //Se repite el ciclo hasta que no sea válido el nombre ingresado.
+  while(not nombrePersonaValido);
 
+  //Se verifica que no hayan empleados con el mismo documento.
+  bool documentoRepetido = false;
+  do{
+    cout << "\nIngrese el documento del empleado: ";
+    cin >> documentoPersona;
+    
+    for(Empleado* empleado: empleados){
+      if(empleado->getTipoEmpleado() == "permanente"){
+        EmpleadoPermanente* empleadoPermanente = dynamic_cast<EmpleadoPermanente*>(empleado);
+
+        if(empleadoPermanente->getDocumento() == documentoPersona){
+          documentoRepetido = true;
+          break;
+        }
+      }
+      else if(empleado->getTipoEmpleado() == "temporal"){
+        EmpleadoTemporal* empleadoTemporal = dynamic_cast<EmpleadoTemporal*>(empleado);
+
+        if(empleadoTemporal->getDocumento() == documentoPersona){
+          documentoRepetido = true;
+          break;
+        }
+      }
+    }
+  }
+  while(documentoRepetido);
+
+  /*Se restringen ciertos inputs a la edad, primero, que esté entre 18 y 100 años, segundo, que si se ingresan carácteres, se soporten ese tipo de inputs y mediante un try se muestre el error y siga en marcha el programa.*/
+  bool rangoEdadValido, edadValida;
+  do{
+    try{
+      cout << "\nIngrese la edad del empleado: ";
+      cin >> edadPersona;
+
+      if(cin.fail()){
+        throw runtime_error("Se han ingresado datos que no son numéricos.");
+      }
+      else{
+        edadValida = true;
+      }
+
+      if(edadPersona < 18 and edadPersona > 100){
+        throw out_of_range("Se ha salido del rango permitido para la edad.");
+      }
+      else{
+        rangoEdadValido = true;
+      }
+    }
+    //Se hace catch cuando se ingrese un carácter.
+    catch(runtime_error &ingresoDeCaracter){
+      cin.clear();
+      cin.ignore();
+      cout << "\nError: " << ingresoDeCaracter.what() << endl;
+      cout << "\nPor favor ingrese una edad válida que solo contenga dígitos." << endl;
+      edadValida = false;
+    }
+    //Se hace catch cuando esté fuera del rango.
+    catch(out_of_range &edadFueraDeRango){
+      cout << "\nError: " << edadFueraDeRango.what() << endl;
+      cout << "\nPor favor ingrese una edad válida entre 18 y 100 años." << endl;
+      rangoEdadValido = false;
+    }
+  }
+  //Mientras que alguno de los dos booleanos sea falso (con not sería true), el ciclo se sigue ejecutando.
+  while(not edadValida or not rangoEdadValido);
+
+  bool idEmpleadoValida, idEmpleadoRepetida = false;
   //Se agrega la restricción de carácteres a 3, este número puede ser mayor o menor dependiendo del cliente.
   do{
     cout << "\nIngrese la id del empleado: ";
     cin >> idEmpleado;
 
+    for(Empleado* empleado: empleados){
+      if(empleado->getIdEmpleado() == idEmpleado){
+        idEmpleadoRepetida = true;
+        break;
+      }
+    }
+
     if(idEmpleado.length() < 3 and idEmpleado.length() > 3){
+      idEmpleadoValida = false;
       cout << "\nIngrese una id de 3 carácteres." << endl;
     }
+    else{
+      idEmpleadoValida = true;
+    }
   }
-  while(idEmpleado.length() < 3 and idEmpleado.length() > 3);
+  while(not idEmpleadoValida or idEmpleadoRepetida);
 
   cout << "\nIngrese el departamento del empleado: ";
   cin >> departamentoEmpleado;
@@ -67,6 +148,7 @@ void Empresa::contratarEmpleado(){
   cout << "\nIngrese el puesto del empleado: ";
   cin >> puestoEmpleado;
 
+  bool eleccionEmpleadoValida;
   //Se agrega lógica para que se ingrese un input válido y soportado.
   do{
     cout << "\n¿Que tipo de empleado es?" << endl << "1. Empleado Permanente" << endl << "2. Empleado Temporal" << endl;
@@ -74,22 +156,26 @@ void Empresa::contratarEmpleado(){
     cin >> eleccionTipoEmpleado;
     if(eleccionTipoEmpleado == 1){
       tipoEmpleado = "permanente";
+      eleccionEmpleadoValida = true;
     }
-    if(eleccionTipoEmpleado == 2){
+    else if(eleccionTipoEmpleado == 2){
       tipoEmpleado = "temporal";
+      eleccionEmpleadoValida = true;
     }
     else{
+      eleccionEmpleadoValida = false;
       cout << "\nPor favor ingrese 1 o 2." << endl;
     }
   }
-  while(eleccionTipoEmpleado != 1 and eleccionTipoEmpleado != 2);
+  while(not eleccionEmpleadoValida);
 
+  //Una vez verificado lo anterior, se crea el objeto acorde a su tipo.
   if(tipoEmpleado == "permanente"){
     empleadosPermanentes.push_back(new EmpleadoPermanente(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado));
     cout << "\nEmpleado contratado con éxito." << endl;
   }
 
-  if(tipoEmpleado == "temporal"){
+  else if(tipoEmpleado == "temporal"){
     empleadosTemporales.push_back(new EmpleadoTemporal(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado));
     cout << "\nEmpleado contratado con éxito." << endl;
   }
@@ -122,61 +208,66 @@ void Empresa::agregarEmpleado(Empleado* unEmpleado){
   }
 }
 
+//Función que "despide" un empleado.
 void Empresa::despedirEmpleado(string idEmpleado){
   //Variables que contendrán la posición del objeto que concuerda con la id del parámetro.
   int it1 = -1;
   int it2 = -1;
   int it3 = -1;
 
-  //Se busca el objeto que coincida con la id del parámetro.
-  for(int i = 0; i < empleados.size(); i++){
-    if(empleados[i]->getIdEmpleado() == idEmpleado){
-      it1 = i;
-      break;
+  bool existeEmpleado = verificarEmpleado(idEmpleado);
+
+  if(existeEmpleado){
+    //Se busca el objeto que coincida con la id del parámetro.
+    for(int i = 0; i < empleados.size(); i++){
+      if(empleados[i]->getIdEmpleado() == idEmpleado){
+        it1 = i;
+        break;
+      }
     }
-  }
 
-  for(int i = 0; i < empleadosTemporales.size(); i++){
-    if(empleadosTemporales[i]->getIdEmpleado() == idEmpleado){
-      it2 = i;
-      break;
+    for(int i = 0; i < empleadosTemporales.size(); i++){
+      if(empleadosTemporales[i]->getIdEmpleado() == idEmpleado){
+        it2 = i;
+        break;
+      }
     }
-  }
 
-  for(int i = 0; i < empleadosPermanentes.size(); i++){
-    if(empleadosPermanentes[i]->getIdEmpleado() == idEmpleado){
-      it3 = i;
-      break;
+    for(int i = 0; i < empleadosPermanentes.size(); i++){
+      if(empleadosPermanentes[i]->getIdEmpleado() == idEmpleado){
+        it3 = i;
+        break;
+      }
     }
-  }
 
-  /*Nótese que los anteriores for nunca retornarán -1, además de que si no encuentran a un empleado con ese id dentro del respectivo vector, entonces no cambiarán el valor inicial de it1, it2 o it3 que es -1.*/
-  if(it1 != -1 and it2 != -1){
-    //Antes de proceder, se debe borrar el puntero para evitar fugas.
-    delete empleados[it1];
-    empleados[it1] = nullptr;
-    delete empleadosPermanentes[it2];
-    empleadosPermanentes[it2] = nullptr;
+    /*Nótese que los anteriores for nunca retornarán -1, además de que si no encuentran a un empleado con ese id dentro del respectivo vector, entonces no cambiarán el valor inicial de it1, it2 o it3 que es -1.*/
+    if(it1 != -1 and it2 != -1){
+      //Antes de proceder, se debe borrar el puntero para evitar fugas.
+      delete empleados[it1];
+      empleados[it1] = nullptr;
+      delete empleadosPermanentes[it2];
+      empleadosPermanentes[it2] = nullptr;
 
-    //Debido a que erase toma como parámetro un iterador, se "convierte" it1 o it2 a uno.
-    empleados.erase(empleados.begin() + it1);
-    empleadosPermanentes.erase(empleadosPermanentes.begin() + it2);
-    cout << "\nEmpleado despedido con éxito." << endl;
-  }
-  else if(it1 != -1 and it3 != -1){
-    //Antes de proceder, se debe borrar el puntero para evitar fugas.
-    delete empleados[it1];
-    empleados[it1] = nullptr;
-    delete empleadosTemporales[it3];
-    empleadosTemporales[it3] = nullptr;
+      //Debido a que erase toma como parámetro un iterador, se "convierte" it1 o it2 a uno.
+      empleados.erase(empleados.begin() + it1);
+      empleadosPermanentes.erase(empleadosPermanentes.begin() + it2);
+      cout << "\nEmpleado despedido con éxito." << endl;
+    }
+    else if(it1 != -1 and it3 != -1){
+      //Antes de proceder, se debe borrar el puntero para evitar fugas.
+      delete empleados[it1];
+      empleados[it1] = nullptr;
+      delete empleadosTemporales[it3];
+      empleadosTemporales[it3] = nullptr;
 
-    //Debido a que erase toma como parámetro un iterador, se "convierte" it1 o it2 a uno.
-    empleados.erase(empleados.begin() + it1);
-    empleadosTemporales.erase(empleadosTemporales.begin() + it3);
-    cout << "\nEmpleado despedido con éxito." << endl;
+      //Debido a que erase toma como parámetro un iterador, se "convierte" it1 o it2 a uno.
+      empleados.erase(empleados.begin() + it1);
+      empleadosTemporales.erase(empleadosTemporales.begin() + it3);
+      cout << "\nEmpleado despedido con éxito." << endl;
+    }
   }
   else{
-    cout << "\nNo existe empleado con esa id." << endl;
+    cout <<"\nNo existe empleado con esa id." << endl;
   }
 }
 
@@ -188,12 +279,61 @@ vector<EmpleadoPermanente*> Empresa::getEmpleadosPermanentes(){
   return empleadosPermanentes;
 }
 
+//Función que verifica si existe empleado con una id recibida como parámetro. Será de ayuda para informacionEmpleado.
+bool Empresa::verificarEmpleado(string idEmpleado){
+  bool empleadoExiste = false;
+  //Se recorre empleados, si se encuentra retorna true, sino retorna false.
+  for(Empleado* empleado: empleados){
+    if(empleado->getIdEmpleado() == idEmpleado){
+      empleadoExiste = true;
+      break;
+    }
+  }
+
+  return empleadoExiste;
+}
+
+//Método que imprime información de un empleado.
+void Empresa::informacionEmpleado(string idEmpleado){
+  //No se verifica si el empleado existe porque eso ya se verificará en el main.
+
+  //Se recorre empleados.
+  for(Empleado* empleado: empleados){
+    //Se busca al empleado que coincida con la id.
+    if(empleado->getIdEmpleado() == idEmpleado){
+      //Si alguno coincide, ahora se verifica su tipo.
+      if(empleado->getTipoEmpleado() == "permanente"){
+        //Una vez verificado su tipo, se hace dynamic casting.
+        EmpleadoPermanente* empleadoPermanente = dynamic_cast<EmpleadoPermanente*>(empleado);
+        //Si el casting es exitoso, se procede a imprimir la información.
+        if(empleadoPermanente != nullptr){
+          cout << "\nInformación del empleado identificado con la id: " << idEmpleado << "." << endl;
+          cout << "\nNombre: " << empleadoPermanente->getNombre() << "." << "\nEdad: " << empleadoPermanente->getEdad() << " años." << "\nDocumento: " << empleadoPermanente->getDocumento() << "." << "\nDepartamento: " << empleadoPermanente->getDepartamentoEmpleado() << "." << "\nPuesto: " << empleadoPermanente->getPuestoEmpleado() << "." << "\nTipo de contrato: " << empleadoPermanente->getTipoEmpleado() << "." << "\nSalario: " << empleadoPermanente->getSalario() << endl;
+        }
+      }
+      else if(empleado->getTipoEmpleado() == "temporal"){
+        EmpleadoTemporal* empleadoTemporal = dynamic_cast<EmpleadoTemporal*>(empleado);
+        if(empleadoTemporal != nullptr){
+          cout << "\nInformación del empleado identificado con la id: " << idEmpleado << "." << endl;
+          cout << "\nNombre: " << empleadoTemporal->getNombre() << "." << "\nEdad: " << empleadoTemporal->getEdad() << " años." << "\nDocumento: " << empleadoTemporal->getDocumento() << "." << "\nDepartamento: " << empleadoTemporal->getDepartamentoEmpleado() << "." << "\nPuesto: " << empleadoTemporal->getPuestoEmpleado() << "." << "\nTipo de contrato: " << empleadoTemporal->getTipoEmpleado() << "." << "\nValor hora: " << empleadoTemporal->getValorHora() << endl;
+        }
+      }
+      //Una vez terminado todo, se hace break.
+      break;
+    }
+  }
+}
+
+void Empresa::editarEmpleado(string idEmpleado){
+  
+}
+
 void Empresa::informeGeneral(){
   cout << "\nCantidad total de empleados: " << empleados.size() << endl;
   cout << "\nCantidad de empleados permanentes: " << empleadosPermanentes.size() << endl;
   cout << "\nCantidad de empleados temporales: " << empleadosTemporales.size() << endl;
 
-  cout << "\nEstado financiero de cada empleado dividido por tipos:" << endl;
+  cout << "\nEstado financiero de cada empleado dividido por tipos de empleado:" << endl;
   calcularPagos();
 
   cout << "\nLo anterior dando un total de: " << totalPagos << " pesos" <<  endl;

@@ -30,7 +30,10 @@ class Empresa {
     vector<EmpleadoTemporal*> getEmpleadosTemporales();
     void agregarEmpleado(Empleado* unEmpleado);
     string getNombreEmpresa();
+    bool verificarEmpleado(string idEmpleado);
+    void informacionEmpleado(string idEmpleado);
     void calcularPagos();
+    void editarEmpleado(string idEmpleado);
     void contratarEmpleado();
     void despedirEmpleado(string idEmpleado);
     void informeGeneral();

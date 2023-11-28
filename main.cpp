@@ -40,47 +40,92 @@ void crearObjetosPrueba(Empresa& pericardilla){
 
 void despedirEmpleadoMenu(Empresa& empresa){
     string idEmpleadoDespedir;
+    bool idValida;
     do{
         cout << "\nIngrese el número de id del empleado que desea despedir: ";
         cin >> idEmpleadoDespedir;
         if(idEmpleadoDespedir.length() < 3 or idEmpleadoDespedir.length() > 3){
+            idValida = false;
             cout <<"\nIngrese un id válida." << endl;
+        }
+        else{
+            idValida = true;
         }
         empresa.despedirEmpleado(idEmpleadoDespedir);
     }
-    while(idEmpleadoDespedir.length() < 3 or idEmpleadoDespedir.length() > 3);
+    while(not idValida);
+}
+
+void consultarInformacionEmpleadoMenu(Empresa &empresa){
+    string idEmpleado;
+
+    cout << "\nIngrese la id del empleado a consultar: ";
+    cin >> idEmpleado;
+    bool existeEmpleado = empresa.verificarEmpleado(idEmpleado);
+    while(not existeEmpleado){
+        cout << "\nNo existe empleado con esa id." << endl;
+        cout << "\nIngrese la id del empleado a consultar: ";
+        cin >> idEmpleado;
+        bool existeEmpleado = empresa.verificarEmpleado(idEmpleado);
+    }
+
+    empresa.informacionEmpleado(idEmpleado);
+}
+
+void editarInformacionEmpleadoMenu(Empresa& empresa){
+    string idEmpleado;
+
+    cout << "\nIngrese la id del empleado a editar: ";
+    cin >> idEmpleado;
+    bool existeEmpleado = empresa.verificarEmpleado(idEmpleado);
+    while(not existeEmpleado){
+        cout << "\nNo existe empleado con esa id." << endl;
+        cout << "\nIngrese la id del empleado a editar: ";
+        cin >> idEmpleado;
+        bool existeEmpleado = empresa.verificarEmpleado(idEmpleado);
+    }
+
+    empresa.editarEmpleado(idEmpleado);
 }
 
 void menuInicial(Empresa& empresa){
-    string opcionMenuPrincipal = "0";
+    int opcionMenuPrincipal;
     do {
         cout << "\nBienvenido al sistema de gestión salarial de la empresa " << empresa.getNombreEmpresa() << "." << endl;
         cout << "\nQué desea hacer?" << endl;
         cout << "\n1. Contratar un nuevo empleado." << endl;
         cout << "\n2. Despedir un empleado." << endl;
-        cout << "\n3. Informe general" << endl;  
-        cout << "\n4. Salir." << endl;
+        cout << "\n3. Editar información de un empleado." << endl;
+        cout << "\n4. Consultar información de un empleado." << endl;
+        cout << "\n5. Informe general" << endl;  
+        cout << "\n6. Salir." << endl;
         cin >> opcionMenuPrincipal; 
-        if (opcionMenuPrincipal == "1"){
+        if (opcionMenuPrincipal == 1){
             empresa.contratarEmpleado();
         }
-        if (opcionMenuPrincipal == "2"){
+        if (opcionMenuPrincipal == 2){
             despedirEmpleadoMenu(empresa);
         }
-        if (opcionMenuPrincipal == "3"){
+        if (opcionMenuPrincipal == 3){
+            editarInformacionEmpleadoMenu(empresa);
+        }
+        if (opcionMenuPrincipal == 4){
+            consultarInformacionEmpleadoMenu(empresa);
+        }
+        if (opcionMenuPrincipal == 5){
             empresa.informeGeneral();
         }
-        if (opcionMenuPrincipal == "4"){
+        if (opcionMenuPrincipal == 6){
             cout << "\nGracias por usar el sistema de gestión Pericardillense." << endl;
         }
     }
-    while (opcionMenuPrincipal != "4");
+    while (opcionMenuPrincipal != 6);
 }
 
 int main() {
     Empresa pericardilla("Pericardilla");
-
     menuInicial(pericardilla);
     crearObjetosPrueba(pericardilla);
 
+    return 0;
 }
