@@ -37,9 +37,10 @@ void Empresa::contratarEmpleado(){
   int edadPersona;
   char eleccionTipoEmpleado;
   
-  bool nombrePersonaValido = true;
+  bool nombrePersonaValido;
   //Ciclo do-while para verificar datos ingresados.
   do{
+    nombrePersonaValido = true;
     cout << "\nIngrese el nombre del empleado: ";
     cin.ignore();
     //getline, lee los datos tal y como fueron ingresados, no los convierte.
@@ -55,7 +56,7 @@ void Empresa::contratarEmpleado(){
     }
   }
   //Se repite el ciclo hasta que no sea válido el nombre ingresado.
-  while(not nombrePersonaValido);
+  while(not (nombrePersonaValido));
 
   //Se verifica que no hayan empleados con el mismo documento.
   bool documentoRepetido = false;
@@ -121,7 +122,7 @@ void Empresa::contratarEmpleado(){
     }
   }
   //Mientras que alguno de los dos booleanos sea falso (con not sería true), el ciclo se sigue ejecutando.
-  while(not edadValida or not rangoEdadValido);
+  while((not (edadValida)) or (not (rangoEdadValido)));
 
   bool idEmpleadoValida, idEmpleadoRepetida = false;
   //Se agrega la restricción de carácteres a 3, este número puede ser mayor o menor dependiendo del cliente.
@@ -144,7 +145,7 @@ void Empresa::contratarEmpleado(){
       idEmpleadoValida = true;
     }
   }
-  while(not idEmpleadoValida or idEmpleadoRepetida);
+  while(((not idEmpleadoValida)) or (idEmpleadoRepetida));
 
   cout << "\nIngrese el departamento del empleado: ";
   cin >> departamentoEmpleado;
@@ -172,7 +173,7 @@ void Empresa::contratarEmpleado(){
       cout << "\nPor favor ingrese 1 o 2." << endl;
     }
   }
-  while(not eleccionEmpleadoValida);
+  while(not (eleccionEmpleadoValida));
 
   //Una vez verificado lo anterior, se crea el objeto acorde a su tipo.
   if(tipoEmpleado == "permanente"){
@@ -223,7 +224,7 @@ void Empresa::contratarEmpleado(){
         }
       }
     }
-    while(not salarioValido or not valorHoraValido);
+    while(((not salarioValido)) or ((not valorHoraValido)));
     cout << "\nEmpleado contratado con éxito." << endl;
   }
   else{
@@ -254,7 +255,7 @@ void Empresa::contratarEmpleado(){
         valorHoraValido = false;
       }
     }
-    while(not valorHoraValido);
+    while(not (valorHoraValido));
     cout << "\nEmpleado contratado con éxito." << endl;
   }
 }
