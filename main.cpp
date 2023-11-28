@@ -85,7 +85,7 @@ void editarInformacionEmpleadoMenu(Empresa& empresa){
         bool existeEmpleado = empresa.verificarEmpleado(idEmpleado);
     }
 
-    empresa.editarEmpleado(idEmpleado);
+    //empresa.editarEmpleado(idEmpleado);
 }
 
 void menuInicial(Empresa& empresa){
@@ -99,6 +99,7 @@ void menuInicial(Empresa& empresa){
         cout << "\n4. Consultar información de un empleado." << endl;
         cout << "\n5. Informe general" << endl;  
         cout << "\n6. Salir." << endl;
+        cout << "\nOpción a elegir: ";
         cin >> opcionMenuPrincipal; 
         if (opcionMenuPrincipal == 1){
             empresa.contratarEmpleado();
@@ -124,8 +125,8 @@ void menuInicial(Empresa& empresa){
 
 int main() {
     Empresa pericardilla("Pericardilla");
-    menuInicial(pericardilla);
     crearObjetosPrueba(pericardilla);
+    menuInicial(pericardilla);
 
     return 0;
 }

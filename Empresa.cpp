@@ -37,11 +37,12 @@ void Empresa::contratarEmpleado(){
   int edadPersona;
   char eleccionTipoEmpleado;
   
-  bool nombrePersonaValido;
+  bool nombrePersonaValido = true;
   //Ciclo do-while para verificar datos ingresados.
   do{
     cout << "\nIngrese el nombre del empleado: ";
-    //getline funciona como un cin solo que lee los datos tal y como fueron ingresados, no los convierte.
+    cin.ignore();
+    //getline, lee los datos tal y como fueron ingresados, no los convierte.
     getline(cin, nombrePersona);
     /*Teniendo en cuenta lo anterior, a nombrePersona se le verifica que no se le hayan ingresado dígitos. Esto normalmente sería imposible si no fuera por getline y su peculiaridad de no convertir los datos ingresados.*/
     for(int i = 0; i < nombrePersona.length(); i++){
@@ -97,7 +98,7 @@ void Empresa::contratarEmpleado(){
         edadValida = true;
       }
 
-      if(edadPersona < 18 and edadPersona > 100){
+      if(edadPersona < 18 or edadPersona > 100){
         throw out_of_range("Se ha salido del rango permitido para la edad.");
       }
       else{
@@ -135,7 +136,7 @@ void Empresa::contratarEmpleado(){
       }
     }
 
-    if(idEmpleado.length() < 3 and idEmpleado.length() > 3){
+    if(idEmpleado.length() < 3 or idEmpleado.length() > 3){
       idEmpleadoValida = false;
       cout << "\nIngrese una id de 3 carácteres." << endl;
     }
@@ -156,6 +157,7 @@ void Empresa::contratarEmpleado(){
   do{
     cout << "\n¿Que tipo de empleado es?" << endl << "1. Empleado Permanente" << endl << "2. Empleado Temporal" << endl;
     cout << "\nSu elección: ";
+    cin.ignore();
     cin >> eleccionTipoEmpleado;
     if(eleccionTipoEmpleado == 1){
       tipoEmpleado = "permanente";
