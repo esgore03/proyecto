@@ -12,10 +12,12 @@ string Empresa::getNombreEmpresa(){
   return nombreEmpresa;  
 }
 
+//Método que calcula cuanto se le debe pagar a cada empleado.
 void Empresa::calcularPagos(){
   float pago;
   totalPagos = 0;
   cout << "\nEMPLEADOS PERMANENTES." << endl;
+  //Se recorre el vector respectivo y se aplica el método, además el atributo totalPagos acumula cada "pago".
   for (EmpleadoPermanente* empleado: empleadosPermanentes){
     pago = empleado->calcularPago();
     totalPagos += pago;
@@ -29,6 +31,7 @@ void Empresa::calcularPagos(){
   }
 }
 
+//Método para "contratar" un empleado.
 void Empresa::contratarEmpleado(){
   string nombrePersona, documentoPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado;
   int edadPersona;
@@ -171,12 +174,85 @@ void Empresa::contratarEmpleado(){
 
   //Una vez verificado lo anterior, se crea el objeto acorde a su tipo.
   if(tipoEmpleado == "permanente"){
-    empleadosPermanentes.push_back(new EmpleadoPermanente(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado));
+    EmpleadoPermanente* empleadoPermanente = new EmpleadoPermanente(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado);
+    empleadosPermanentes.push_back(empleadoPermanente);
+
+    float salarioEmpleado, valorHoraEmpleado;
+    bool salarioValido, valorHoraValido;
+    do{
+      try{
+        //Se pregunta por el salario del empleado y el valor de su hora para las horas extras.
+        cout << "\nIngrese el salario que tendrá el empleado: ";
+        cin >> salarioEmpleado;
+        empleadoPermanente->setSalario(salarioEmpleado);
+
+        //Se verifica que no hayan habido fallos en el cin, si los hay se hace throw del respectivo error.
+        if(cin.fail()){
+          throw runtime_error("Se han ingresado carácteres al input de salario.");
+        }
+        else{
+          salarioValido = true;
+        }
+
+        cout << "\nIngrese el valor por hora que tendrá el empleado: ";
+        cin >> valorHoraEmpleado;
+        empleadoPermanente->setValorHora(valorHoraEmpleado);
+
+        if(cin.fail()){
+          throw runtime_error("Se han ingresado carácteres al input de valor hora.");
+        }
+        else{
+          valorHoraValido = true;
+        }
+      }
+      //Se define como se procesan dichos throw.
+      catch(runtime_error &inputNoValido){
+        cin.clear();
+        cin.ignore();
+        if(inputNoValido.what() == "Se han ingresado carácteres al input de salario."){       
+          cout << "\nError: " << inputNoValido.what() << endl;
+          cout << "\nPor favor ingrese solo dígitos." << endl;
+          salarioValido = false;
+        }
+        else{
+          cout << "\nError: " << inputNoValido.what() << endl;
+          cout << "\nPor favor ingrese solo dígitos." << endl;
+          valorHoraValido = false;
+        }
+      }
+    }
+    while(not salarioValido or not valorHoraValido);
     cout << "\nEmpleado contratado con éxito." << endl;
   }
+  else{
+    EmpleadoTemporal* empleadoTemporal = new EmpleadoTemporal(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado);
+    empleadosTemporales.push_back(empleadoTemporal);
 
-  else if(tipoEmpleado == "temporal"){
-    empleadosTemporales.push_back(new EmpleadoTemporal(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado));
+    bool valorHoraValido;
+    float valorHoraEmpleado;
+
+    do{
+      try{
+        cout << "\nIngrese el valor por hora que tendrá el empleado: ";
+        cin >> valorHoraEmpleado;
+        empleadoTemporal->setValorHora(valorHoraEmpleado);
+
+        if(cin.fail()){
+          throw runtime_error("Se han ingresado carácteres al input de valor hora.");
+        }
+        else{
+          valorHoraValido = true;
+        }
+      }
+      catch(runtime_error &inputNoValido){
+        cin.clear();
+        cin.ignore();
+        cout << "\nError: " << inputNoValido.what() << endl;
+        cout << "\nPor favor ingrese solo dígitos." << endl;
+        valorHoraValido = false;
+      }
+    }
+    while(not valorHoraValido);
     cout << "\nEmpleado contratado con éxito." << endl;
   }
 }
@@ -325,9 +401,10 @@ void Empresa::informacionEmpleado(string idEmpleado){
 }
 
 void Empresa::editarEmpleado(string idEmpleado){
-  
+
 }
 
+//Se imprime la información general de la empresa.
 void Empresa::informeGeneral(){
   cout << "\nCantidad total de empleados: " << empleados.size() << endl;
   cout << "\nCantidad de empleados permanentes: " << empleadosPermanentes.size() << endl;

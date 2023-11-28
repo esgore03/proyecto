@@ -24,4 +24,8 @@ void EmpleadoPermanente::setSalario(float salario){
   this->salarioBasico = salario;
 }
 
+void EmpleadoPermanente::setValorHora(float valorHora){
+  this->valorHora = valorHora;
+}
+
 

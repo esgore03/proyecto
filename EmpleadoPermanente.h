@@ -15,8 +15,8 @@ using namespace std;
 class EmpleadoPermanente: public Persona, public Empleado{
   private:
     int horasExtra;
-    float salarioBasico = 1160000;
-    float valorHora = 5000;
+    float salarioBasico;
+    float valorHora;
   
   public:
     EmpleadoPermanente(string nombrePersona, string documentoPersona, int edadPersona, string idEmpleado, string departamentoEmpleado, string puestoEmpleado, string tipoEmpleado);
@@ -25,7 +25,7 @@ class EmpleadoPermanente: public Persona, public Empleado{
     float getSalario();
     void setHorasExtra(int horasExtra);
     void setSalario(float salario);
-
+    void setValorHora(float valorHora);
 };
 
 #else
