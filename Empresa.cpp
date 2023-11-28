@@ -400,9 +400,21 @@ void Empresa::informacionEmpleado(string idEmpleado){
   }
 }
 
-void Empresa::editarEmpleado(string idEmpleado){
+/*void Empresa::editarEmpleado(string idEmpleado){
+  int opcion;
 
-}
+  
+  for(Empleado* empleado: empleados){
+    if(empleado->getIdEmpleado() == idEmpleado){
+      if(empleado->getTipoEmpleado() == "permanente"){
+        EmpleadoPermanente* empleadoPermanente = dynamic_cast<EmpleadoPermanente*>(empleado);
+        cout << "\n1. Editar nombre." << "\n2. Editar documento." << "\n3. Editar edad." << "\n4. Editar id." << "\n5. Editar departamento." << "\n6. Editar puesto." << "\n7. Editar tipo." << "\n8. Editar salario." << endl;
+        cout << "\nDígite la opción a elegir: ";
+        cin >> opcion;
+      }
+    }
+  }
+}*/
 
 //Se imprime la información general de la empresa.
 void Empresa::informeGeneral(){
