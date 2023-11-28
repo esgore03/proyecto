@@ -1,4 +1,10 @@
 /*
+Este código es el fruto de las lágrimas y las heridas de Jhorman, que luchó valientemente contra los errores que acechaban el proyecto.
+Cada línea es una batalla ganada, cada método es una victoria lograda, cada comentario es una cicatriz que lo recuerda.
+Este código es el testimonio de su esfuerzo y dedicación, de su pasión y creatividad, de su ingenio y perseverancia.
+Este código es su obra maestra, su legado, su orgullo.
+Este código es Jhorman.
+
 Autores:
 Ivan Ausecha 2328223-3743 ivan.ausecha@correounivalle.edu.co
 Esteban Gomez 202330197 esteban.gomez.reyes@correounivalle.edu.co
