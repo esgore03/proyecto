@@ -1,6 +1,9 @@
 {
   "code-runner.executorMap": {
     "cpp": "cd $dir && g++ *.cpp -o main && ./main"
+  },
+  "files.associations": {
+    "iostream": "cpp"
   }
 }
 

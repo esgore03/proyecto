@@ -21,13 +21,13 @@ void Empresa::calcularPagos(){
   for (EmpleadoPermanente* empleado: empleadosPermanentes){
     pago = empleado->calcularPago();
     totalPagos += pago;
-    cout << "\nAl empleado " << empleado->getNombre() << " identificado con id de empleado: " << empleado->getIdEmpleado() << " se le debe pagar: " << pago << " persos" << endl;
+    cout << "\nAl empleado " << empleado->getNombre() << ", identificado con id de empleado: " << empleado->getIdEmpleado() << " se le debe pagar: " << pago << " persos" << endl;
   }
   cout << "\nEMPLEADOS TEMPORALES." << "\nTéngase en cuenta que el calculo a continuación se basa en las horas trabajadas registradas, si estas son 0, el cálculo retornará 0." << endl;
   for (EmpleadoTemporal* empleado: empleadosTemporales){
     pago = empleado->calcularPago();
     totalPagos += pago;
-    cout << "\nAl empleado " << empleado->getNombre() << " identificado con id de empleado: " << empleado->getIdEmpleado() << " se le debe pagar: " << pago << " persos" << endl;
+    cout << "\nAl empleado " << empleado->getNombre() << ", identificado con id de empleado: " << empleado->getIdEmpleado() << " se le debe pagar: " << pago << " persos" << endl;
   }
 }
 
@@ -35,7 +35,6 @@ void Empresa::calcularPagos(){
 void Empresa::contratarEmpleado(){
   string nombrePersona, documentoPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado;
   int edadPersona;
-  char eleccionTipoEmpleado;
   
   bool nombrePersonaValido;
   //Ciclo do-while para verificar datos ingresados.
@@ -59,8 +58,9 @@ void Empresa::contratarEmpleado(){
   while(not (nombrePersonaValido));
 
   //Se verifica que no hayan empleados con el mismo documento.
-  bool documentoRepetido = false;
+  bool documentoRepetido;
   do{
+    documentoRepetido = false;
     cout << "\nIngrese el documento del empleado: ";
     cin >> documentoPersona;
     
@@ -69,6 +69,7 @@ void Empresa::contratarEmpleado(){
         EmpleadoPermanente* empleadoPermanente = dynamic_cast<EmpleadoPermanente*>(empleado);
 
         if(empleadoPermanente->getDocumento() == documentoPersona){
+          cout << "\nDocumento repetido." << endl;
           documentoRepetido = true;
           break;
         }
@@ -77,6 +78,7 @@ void Empresa::contratarEmpleado(){
         EmpleadoTemporal* empleadoTemporal = dynamic_cast<EmpleadoTemporal*>(empleado);
 
         if(empleadoTemporal->getDocumento() == documentoPersona){
+          cout << "\nDocumento repetido." << endl;
           documentoRepetido = true;
           break;
         }
@@ -124,20 +126,24 @@ void Empresa::contratarEmpleado(){
   //Mientras que alguno de los dos booleanos sea falso (con not sería true), el ciclo se sigue ejecutando.
   while((not (edadValida)) or (not (rangoEdadValido)));
 
-  bool idEmpleadoValida, idEmpleadoRepetida = false;
+  bool idEmpleadoValida, idEmpleadoRepetida;
   //Se agrega la restricción de carácteres a 3, este número puede ser mayor o menor dependiendo del cliente.
   do{
+    idEmpleadoRepetida = false;
+
     cout << "\nIngrese la id del empleado: ";
     cin >> idEmpleado;
 
     for(Empleado* empleado: empleados){
       if(empleado->getIdEmpleado() == idEmpleado){
+        cout << "\nId repetida." << endl;
         idEmpleadoRepetida = true;
         break;
       }
     }
 
-    if(idEmpleado.length() < 3 or idEmpleado.length() > 3){
+    //La restricción específica ideada por nosotros es esta, puede cambiar dependiendo de la empresa.
+    if(idEmpleado.length() < 1 or idEmpleado.length() > 1){
       idEmpleadoValida = false;
       cout << "\nIngrese una id de 3 carácteres." << endl;
     }
@@ -147,18 +153,19 @@ void Empresa::contratarEmpleado(){
   }
   while(((not idEmpleadoValida)) or (idEmpleadoRepetida));
 
+  //No hay restricciones para este apartado.
   cout << "\nIngrese el departamento del empleado: ";
   cin >> departamentoEmpleado;
 
   cout << "\nIngrese el puesto del empleado: ";
   cin >> puestoEmpleado;
 
+  int eleccionTipoEmpleado;
   bool eleccionEmpleadoValida;
   //Se agrega lógica para que se ingrese un input válido y soportado.
   do{
     cout << "\n¿Que tipo de empleado es?" << endl << "1. Empleado Permanente" << endl << "2. Empleado Temporal" << endl;
     cout << "\nSu elección: ";
-    cin.ignore();
     cin >> eleccionTipoEmpleado;
     if(eleccionTipoEmpleado == 1){
       tipoEmpleado = "permanente";
@@ -178,6 +185,7 @@ void Empresa::contratarEmpleado(){
   //Una vez verificado lo anterior, se crea el objeto acorde a su tipo.
   if(tipoEmpleado == "permanente"){
     EmpleadoPermanente* empleadoPermanente = new EmpleadoPermanente(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado);
+    empleados.push_back(empleadoPermanente);
     empleadosPermanentes.push_back(empleadoPermanente);
 
     float salarioEmpleado, valorHoraEmpleado;
@@ -229,6 +237,7 @@ void Empresa::contratarEmpleado(){
   }
   else{
     EmpleadoTemporal* empleadoTemporal = new EmpleadoTemporal(nombrePersona, documentoPersona,  edadPersona, idEmpleado, departamentoEmpleado, puestoEmpleado, tipoEmpleado);
+    empleados.push_back(empleadoTemporal);
     empleadosTemporales.push_back(empleadoTemporal);
 
     bool valorHoraValido;
@@ -264,7 +273,7 @@ void Empresa::contratarEmpleado(){
 void Empresa::agregarEmpleado(Empleado* unEmpleado){
   empleados.push_back(unEmpleado);
 
-  //Se verifica el tipoEmpleado.
+  /*Se verifica el tipoEmpleado. Además, nótese que no se verifican realmente los datos del empleado desde afuera, esto debido a que como dijimos antes, esta función NO debería estar en el programa final, solo está para facilitar pruebas a nostros y al profesor.*/
   if(unEmpleado->getTipoEmpleado() == "permanente"){
     //Se intenta realizar dynamic casting, si es exitoso retorna un puntero válido, si no lo es, retorna nullptr.
     EmpleadoPermanente* empleado = dynamic_cast<EmpleadoPermanente*>(unEmpleado);

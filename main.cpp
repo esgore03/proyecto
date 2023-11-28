@@ -24,7 +24,7 @@ void crearObjetosPrueba(Empresa& pericardilla){
     string departamentosEmpleados[4] = {"limpieza", "logistica", "cocina", "logistica"};
     string puestosEmpleados[4] = {"aseador", "analista", "mesero", "repartidor"};
     string tiposEmpleados[4] = {"permanente", "permanente", "temporal", "temporal"};
-    string idsEmpleados[4] = {"001", "002", "003", "004"};
+    string idsEmpleados[4] = {"1", "2", "3", "4"};
     int edadesPersonas[4] = {19, 40, 18, 18};
     
 
