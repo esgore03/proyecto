@@ -1,10 +1,4 @@
 /*
-Este código es el fruto de las lágrimas y las heridas de Jhorman, que luchó valientemente contra los errores que acechaban el proyecto.
-Cada línea es una batalla ganada, cada método es una victoria lograda, cada comentario es una cicatriz que lo recuerda.
-Este código es el testimonio de su esfuerzo y dedicación, de su pasión y creatividad, de su ingenio y perseverancia.
-Este código es su obra maestra, su legado, su orgullo.
-Este código es Jhorman.
-
 Autores:
 Ivan Ausecha 2328223-3743 ivan.ausecha@correounivalle.edu.co
 Esteban Gomez 202330197 esteban.gomez.reyes@correounivalle.edu.co
@@ -26,7 +20,7 @@ using namespace std;
 //Función cuyo fin es crear objetos iniciales para las pruebas. Esta función no haría parte del programa final, solo es para probar el funcionamiento de este.
 void crearObjetosPrueba(Empresa& pericardilla){
     string nombresPersonas[4] = {"Ivan", "Angelica", "Dylan", "Jhorman"};
-    string documentosPersonas[4] = {"202330197", "192330196", "102330196", "202369696"};
+    string documentosPersonas[4] = {"2023301971", "192330196", "102330196", "202369696"};
     string departamentosEmpleados[4] = {"limpieza", "logistica", "cocina", "logistica"};
     string puestosEmpleados[4] = {"aseador", "analista", "mesero", "repartidor"};
     string tiposEmpleados[4] = {"permanente", "permanente", "temporal", "temporal"};
@@ -57,7 +51,7 @@ void menuPrincipal(Empresa& empresa){
         cout << "\n5. Informe general" << endl;  
         cout << "\n6. Salir." << endl;
         cout << "\nOpción a elegir: ";
-        cin >> opcionMenuPrincipal; 
+        cin >> opcionMenuPrincipal;
         if (opcionMenuPrincipal == 1){
             empresa.contratarEmpleado();
         }

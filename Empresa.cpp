@@ -60,6 +60,7 @@ void Empresa::contratarEmpleado()
   {
     nombrePersonaValido = true;
     cout << "\nIngrese el nombre del empleado: ";
+    cin.ignore();
     cin >> nombrePersona;
     // Se verifica si es dígito carácter a carácter.
     for (char caracter : nombrePersona)
@@ -221,10 +222,11 @@ void Empresa::contratarEmpleado()
 
   // No hay restricciones para este apartado.
   cout << "\nIngrese el departamento del empleado: ";
+  cin.ignore();
   cin >> departamentoEmpleado;
 
   cout << "\nIngrese el puesto del empleado: ";
-  cin >> puestoEmpleado;
+  cin >>puestoEmpleado;
 
   int eleccionTipoEmpleado;
   bool eleccionEmpleadoValida;
@@ -416,7 +418,6 @@ void Empresa::informacionEmpleado()
   do
   {
     cout << "\nIngrese la id del empleado: ";
-    cin.ignore();
     cin >> idEmpleado;
 
     // La restricción específica ideada por nosotros es esta, puede cambiar dependiendo de la empresa.
@@ -497,7 +498,6 @@ void Empresa::editarEmpleado()
   do
   {
     cout << "\nIngrese la id del empleado: ";
-    cin.ignore();
     cin >> idEmpleado;
 
     // La restricción específica ideada por nosotros es esta, puede cambiar dependiendo de la empresa.
@@ -557,6 +557,7 @@ void Empresa::editarEmpleado()
               nombrePersonaValido = true;
               cout << "\nIngrese el nombre nuevo del empleado: ";
               cin >> nombrePersona;
+
               // Se verifica carácter por carácter si hay dígitos.
               for (char caracter : nombrePersona)
               {
@@ -683,7 +684,7 @@ void Empresa::editarEmpleado()
             {
               idEmpleadoRepetida = false;
 
-              cout << "\nIngrese la id del empleado: ";
+              cout << "\nIngrese la nueva id del empleado: ";
               cin >> idEmpleado;
 
               for (Empleado *empleado : empleados)
@@ -972,7 +973,7 @@ void Empresa::editarEmpleado()
             {
               idEmpleadoRepetida = false;
 
-              cout << "\nIngrese la id del empleado: ";
+              cout << "\nIngrese la nueva id del empleado: ";
               cin >> idEmpleado;
 
               for (Empleado *empleado : empleados)
@@ -1100,7 +1101,6 @@ void Empresa::despedirEmpleado()
   do
   {
     cout << "\nIngrese la id del empleado: ";
-    cin.ignore();
     cin >> idEmpleado;
 
     // La restricción específica ideada por nosotros es esta, puede cambiar dependiendo de la empresa.
@@ -1194,22 +1194,13 @@ void Empresa::calcularPagos()
 {
   float pago;
   totalPagos = 0;
-  cout << "\nEMPLEADOS PERMANENTES." << endl;
-  // Se recorre el vector respectivo y se aplica el método, además el atributo totalPagos acumula cada "pago".
-  for (EmpleadoPermanente *empleado : empleadosPermanentes)
+  // Se recorre el vector y se aplica el método.
+  for (Empleado *empleado : empleados)
   {
     pago = empleado->calcularPago();
     totalPagos += pago;
-    cout << "\nAl empleado " << empleado->getNombre() << ", identificado con id de empleado: " << empleado->getIdEmpleado() << ", se le debe pagar: " << pago << " pesos" << endl;
-  }
-  cout << "\nEMPLEADOS TEMPORALES."
-       << "\nTéngase en cuenta que el calculo a continuación se basa en las horas trabajadas registradas, si estas son 0, el cálculo retornará 0." << endl;
-  for (EmpleadoTemporal *empleado : empleadosTemporales)
-  {
-    pago = empleado->calcularPago();
-    totalPagos += pago;
-    cout << "\nAl empleado " << empleado->getNombre() << ", identificado con id de empleado: " << empleado->getIdEmpleado() << ", se le debe pagar: " << pago << " pesos" << endl;
-  }
+    cout << "\nAl empleado identificado con id de empleado: " << empleado->getIdEmpleado() << ", se le debe pagar: " << pago << " pesos" << endl;
+  } 
 }
 
 // Se imprime la información general de la empresa.
@@ -1219,7 +1210,8 @@ void Empresa::informeGeneral()
   cout << "\nCantidad de empleados permanentes: " << empleadosPermanentes.size() << "." << endl;
   cout << "\nCantidad de empleados temporales: " << empleadosTemporales.size() << "." << endl;
 
-  cout << "\nEstado financiero de cada empleado dividido por tipos de empleado:" << endl;
+  cout << "\nEstado financiero de cada empleado:" << endl;
+
   calcularPagos();
 
   cout << "\nLo anterior dando un total de: " << totalPagos << " pesos." << endl;
